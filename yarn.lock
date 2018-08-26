@@ -5958,3 +5958,7 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+zingchart@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/zingchart/-/zingchart-2.8.0.tgz#4d6cd05e3933aed83be67d839aa1d81c2673c4ce"
