@@ -56,7 +56,9 @@ class FunctionsController < ApplicationController
           expression_xs: params[:range_start].upto(params[:range_end]).to_a,
           expression_ys: expression_ys,
           position_a: [@function.point_a_x, @function.point_a_y],
-          position_b: [@function.point_b_x, @function.point_b_y]
+          position_b: [@function.point_b_x, @function.point_b_y],
+          has_point_a: @function.point_a.present?,
+          has_point_b: @function.point_b.present?
         }
       end
     end
