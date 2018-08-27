@@ -1,15 +1,40 @@
+chart_reset_zoom_button = (chart_id) =>
+  zingchart.bind chart_id, 'label_click', (e) ->
+    if e.labelid == 'zoom-out-to-start'
+      zingchart.exec(chart_id, 'viewall')
+
+  zingchart.bind chart_id, 'zoom', (e) ->
+    if e.action && e.action == 'viewall'
+      zingchart.exec chart_id, 'updateobject', {
+        type: 'label',
+        data: {
+          id: 'zoom-out-to-start',
+          visible: false
+        }
+      }
+    else
+      zingchart.exec chart_id, 'updateobject', {
+        type: 'label',
+        data: {
+          id: 'zoom-out-to-start',
+          visible: true
+        }
+      }
+
+chart_data = {}
+
 load_chart = =>
   $.ajax
     url: "#{window.location.href}/evaluate_expression",
     success: (result) ->
-      series_point_a = {}
-      series_point_b = {}
+      series_point_a = []
+      series_point_b = []
       range_marker = {}
 
       if result.has_point_a
-        series_point_a = { values: [result.position_a], marker: { type: 'diamond' }, text: 'Ponto A' }
+        series_point_a = [result.position_a]
       if result.has_point_b
-        series_point_b = { values: [result.position_b], marker: { type: 'diamond' }, text: 'Ponto B' }
+        series_point_b = [result.position_b]
       if result.has_point_a && result.has_point_b
         range_marker =
           type: 'area',
@@ -17,7 +42,7 @@ load_chart = =>
           range: [result.position_a[0], result.position_b[0]],
           valueRange: true
 
-      data = {
+      chart_data = {
         type: 'line',
         plot: {
           aspect: 'spline'
@@ -91,38 +116,16 @@ load_chart = =>
         series: [
           { values: result.expression_ys, 'guide-label': { text: 'f(x) = %v' } },
           # Só mostra cada ponto se esse existir
-          series_point_a,
-          series_point_b
+          { values: series_point_a, marker: { type: 'diamond' }, text: 'Ponto A' },
+          { values: series_point_b, marker: { type: 'diamond' }, text: 'Ponto B' }
         ]
       }
 
-      # Binds para o botão de resetar o zoom
-      zingchart.bind 'show_function_chart', 'label_click', (e) ->
-        if e.labelid == 'zoom-out-to-start'
-          zingchart.exec('show_function_chart', 'viewall')
-
-      zingchart.bind 'show_function_chart', 'zoom', (e) ->
-        if e.action && e.action == 'viewall'
-          zingchart.exec 'show_function_chart', 'updateobject', {
-            type: 'label',
-            data: {
-              id: 'zoom-out-to-start',
-              visible: false
-            }
-          }
-        else
-          zingchart.exec 'show_function_chart', 'updateobject', {
-            type: 'label',
-            data: {
-              id: 'zoom-out-to-start',
-              visible: true
-            }
-          }
-      # ==========================================
+      chart_reset_zoom_button('show_function_chart')
 
       zingchart.render
         id: 'show_function_chart',
-        data: data,
+        data: chart_data,
         output: 'canvas'
 
       # Evita o erro de aparecer por um tempo a tela de erro enquanto faz a transição de fadeout
@@ -139,4 +142,40 @@ load_chart = =>
         $('#chart_loading .errored').removeClass 'hidden'
       , 1000
 
+update_points = =>
+  $('#function_point_a, #function_point_b').one 'keydown', ->
+    $('#update_points').removeClass 'hidden'
+
+  $('#update_points').on 'click', ->
+    point_a = $('#function_point_a').val()
+    point_b = $('#function_point_b').val()
+
+    if point_a != "" && point_b != ""
+      chart_data['scale-x'].markers = [
+        {
+          type: 'area',
+          backgroundColor: '#d7e6f4',
+          range: [parseInt(point_a.split(',')[0]), parseInt(point_b.split(',')[0])],
+          valueRange: true
+        }
+      ]
+      # Gráfico é re-renderizado com o novo marcador
+      zingchart.render
+        id: 'show_function_chart',
+        data: chart_data,
+        output: 'canvas'
+
+    if point_a != ""
+      point_a = point_a.split(',')
+      zingchart.exec 'show_function_chart', 'setseriesvalues',
+        plotindex : 1,
+        values : [[parseInt(point_a[0]), parseInt(point_a[1])]]
+
+    if point_b != ""
+      point_b = point_b.split(',')
+      zingchart.exec 'show_function_chart', 'setseriesvalues',
+        plotindex : 2,
+        values : [[parseInt(point_b[0]), parseInt(point_b[1])]]
+
 $(document).on 'turbolinks:load', load_chart
+$(document).on 'turbolinks:load', update_points

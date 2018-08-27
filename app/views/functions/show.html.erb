@@ -10,16 +10,24 @@
     </div>
   </h1>
 
-  <p class="function-show">
-    <% if @function.point_a.present? %>
-        <strong>Ponto A:</strong>
-        <%= @function.point_a %>
-    <% end %>
-    <% if @function.point_b.present? %>
-      <strong style="margin-left: 20px">Ponto B:</strong>
-      <%= @function.point_b %>
+  <%= form_with(model: @function, local: true, class: 'ui form') do |form| %>
+    <div class="function-show">
+      <strong>Ponto A:</strong>
+      <div class="ui large input">
+        <%= form.text_field :point_a, class: 'code', size: 6 %>
+      </div>
+
+      <strong id="point_b_title">Ponto B:</strong>
+      <div class="ui large input">
+        <%= form.text_field :point_b, class: 'code', size: 6 %>
+      </div>
+
+      <a class="ui button link hidden" id="update_points">
+        <i class="refresh icon"></i>
+        Atualizar
+      </a>
+    </div>
   <% end %>
-  </p>
 
 
   <div class="ui divider"></div>
@@ -47,6 +55,10 @@
     </div>
 
     <div id="show_function_chart" style="min-height:480px"></div>
+
+  </div>
+
+  <div class="ui piled segment">
 
   </div>
 
