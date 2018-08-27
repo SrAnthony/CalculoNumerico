@@ -17,6 +17,4 @@
 //= require jquery
 //= require semantic-ui
 
-//= require_tree .
-
 console.log('application.js loaded');

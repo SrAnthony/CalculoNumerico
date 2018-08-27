@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  expression: MyString
+  point_a: MyString
+  point_b: MyString
+
+two:
+  expression: MyString
+  point_a: MyString
+  point_b: MyString

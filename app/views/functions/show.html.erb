@@ -1,0 +1,33 @@
+<%= javascript_include_tag 'functions_show' %>
+
+<div class="ui container">
+  <p id="notice"><%= notice %></p>
+
+  <h1 class="ui header" style="font-family: monospace">
+    <i class="chart line icon"></i>
+    <div class="content">
+      <%= @function.human_expression %>
+    </div>
+  </h1>
+
+  <% if @function.point_a.present? %>
+    <p>
+      <strong>Point a:</strong>
+      <%= @function.point_a %>
+    </p>
+  <% end %>
+
+  <% if @function.point_b.present? %>
+    <p>
+      <strong>Point b:</strong>
+      <%= @function.point_b %>
+    </p>
+  <% end %>
+
+  <div class="ui divider"></div>
+
+  <div id ='show_function_chart'></div>
+
+  <%= link_to 'Edit', edit_function_path(@function) %> |
+  <%= link_to 'Back', functions_path %>
+</div>
