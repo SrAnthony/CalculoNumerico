@@ -1,5 +1,13 @@
-<h1>New Function</h1>
+<div class="ui container">
+  <div class="ui hidden divider"></div>
+  <h1>Nova Função</h1>
 
-<%= render 'form', function: @function %>
+  <%= render 'form', function: @function %>
 
-<%= link_to 'Back', functions_path %>
+  <br>
+
+  <%= link_to functions_path, class: 'ui button' do %>
+    <i class="chevron left icon"></i>
+    Voltar
+  <% end %>
+</div>

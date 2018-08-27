@@ -1,32 +1,20 @@
-<%= form_with(model: function, local: true) do |form| %>
-  <% if function.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(function.errors.count, "error") %> prohibited this function from being saved:</h2>
-
-      <ul>
-      <% function.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_with(model: function, local: true, class: 'ui form') do |form| %>
   <div class="field">
-    <%= form.label :expression %>
+    <%= form.label :expression, 'Expressão' %>
     <%= form.text_field :expression %>
   </div>
 
   <div class="field">
-    <%= form.label :point_a %>
+    <%= form.label :point_a, 'Ponto A' %>
     <%= form.text_field :point_a %>
   </div>
 
   <div class="field">
-    <%= form.label :point_b %>
+    <%= form.label :point_b, 'Ponto B' %>
     <%= form.text_field :point_b %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Enviar', class: 'ui positive button' %>
   </div>
 <% end %>

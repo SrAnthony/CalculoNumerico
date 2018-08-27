@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :functions
   root 'dashboard#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  get 'functions/:id/evaluate_expression' => 'functions#evaluate_expression', as: :evaluate_expression
+  get 'functions/:id/function_points' => 'functions#function_points', as: :function_points
 end

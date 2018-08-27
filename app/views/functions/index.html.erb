@@ -1,31 +1,49 @@
-<p id="notice"><%= notice %></p>
+<div class="ui container">
+  <div class="ui hidden divider"></div>
 
-<h1>Functions</h1>
+  <h1 class="ui header">
+    <i class="superscript icon"></i>
+    <div class="content">
+      Funções
+    </div>
+  </h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Expression</th>
-      <th>Point a</th>
-      <th>Point b</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @functions.each do |function| %>
+  <table class="ui tablet stackable selectable celled table">
+    <thead>
       <tr>
-        <td><%= function.expression %></td>
-        <td><%= function.point_a %></td>
-        <td><%= function.point_b %></td>
-        <td><%= link_to 'Show', function %></td>
-        <td><%= link_to 'Edit', edit_function_path(function) %></td>
-        <td><%= link_to 'Destroy', function, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Expressão</th>
+        <th>Ponto A</th>
+        <th>Ponto B</th>
+        <th class="right aligned">Ações</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @functions.each do |function| %>
+        <tr>
+          <td class="selectable">
+            <%= link_to function.expression, function %>
+          </td>
+          <td><%= function.point_a %></td>
+          <td><%= function.point_b %></td>
+          <td class="right aligned">
+            <%= link_to edit_function_path(function), class: 'ui icon primary basic compact button' do %>
+              <i class="edit icon"></i>
+            <% end %>
+            <%= link_to function, method: :delete, data: { confirm: 'Você tem certeza?' }, class: 'ui icon negative basic compact button' do %>
+              <i class="trash icon"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to 'New Function', new_function_path %>
+
+  <br>
+
+  <%= link_to new_function_path, class: 'ui primary button' do %>
+    <i class="superscript icon"></i>
+    Adicionar função
+  <% end %>
+</div>

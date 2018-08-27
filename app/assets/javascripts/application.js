@@ -16,5 +16,6 @@
 
 //= require jquery
 //= require semantic-ui
+//= require general
 
 console.log('application.js loaded');

@@ -1,33 +1,62 @@
-<%= javascript_include_tag 'functions_show' %>
+<%= javascript_include_tag 'functions_show', defer: true %>
 
 <div class="ui container">
-  <p id="notice"><%= notice %></p>
+  <div class="ui hidden divider"></div>
 
-  <h1 class="ui header" style="font-family: monospace">
+  <h1 class="ui function-show header">
     <i class="chart line icon"></i>
     <div class="content">
       <%= @function.human_expression %>
     </div>
   </h1>
 
-  <% if @function.point_a.present? %>
-    <p>
-      <strong>Point a:</strong>
-      <%= @function.point_a %>
-    </p>
-  <% end %>
-
-  <% if @function.point_b.present? %>
-    <p>
-      <strong>Point b:</strong>
+  <p class="function-show">
+    <% if @function.point_a.present? %>
+        <strong>Ponto A:</strong>
+        <%= @function.point_a %>
+    <% end %>
+    <% if @function.point_b.present? %>
+      <strong style="margin-left: 20px">Ponto B:</strong>
       <%= @function.point_b %>
-    </p>
   <% end %>
+  </p>
+
 
   <div class="ui divider"></div>
 
-  <div id ='show_function_chart'></div>
+  <div class="ui piled segment">
+    <div id="chart_loading" class="ui active inverted dimmer">
 
-  <%= link_to 'Edit', edit_function_path(@function) %> |
-  <%= link_to 'Back', functions_path %>
+      <div class="ui text loader">
+        Carregando
+      </div>
+
+      <!-- Só mostra em caso de erro no request -->
+      <div class="ui text errored hidden">
+        <h4 class="ui icon header">
+          <i class="warning sign icon"></i>
+          <div class="content">
+            Ocorreu um erro!
+            <div class="sub header">
+              Por favor, contate um administrador do sistema.
+            </div>
+          </div>
+        </h4>
+      </div>
+
+    </div>
+
+    <div id="show_function_chart" style="min-height:480px"></div>
+
+  </div>
+
+  <%= link_to edit_function_path(@function), class: 'ui button' do %>
+    <i class="edit icon"></i>
+    Editar
+  <% end %>
+  <%= link_to functions_path, class: 'ui button' do %>
+    <i class="chevron left icon"></i>
+    Voltar
+  <% end %>
+  <br><br>
 </div>

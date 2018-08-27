@@ -13,10 +13,10 @@
     <%= Gon::Base.render_data %>
 
     <!-- app/assets/javascripts -->
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
 
     <!-- app/javascript/packs -->
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'application', defer: true %>
   </head>
 
   <body>
