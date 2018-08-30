@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'functions_show', defer: true %>
+<%= javascript_include_tag 'functions_show', 'metodo_bisseccao', defer: true %>
 
 <div class="ui container">
   <div class="ui hidden divider"></div>
@@ -10,57 +10,26 @@
     </div>
   </h1>
 
-  <%= form_with(model: @function, local: true, class: 'ui form') do |form| %>
-    <div class="function-show">
-      <strong>Ponto A:</strong>
-      <div class="ui large input">
-        <%= form.text_field :point_a, class: 'code', size: 6 %>
-      </div>
-
-      <strong id="point_b_title">Ponto B:</strong>
-      <div class="ui large input">
-        <%= form.text_field :point_b, class: 'code', size: 6 %>
-      </div>
-
-      <a class="ui button link hidden" id="update_points">
-        <i class="refresh icon"></i>
-        Atualizar
-      </a>
-    </div>
-  <% end %>
-
-
-  <div class="ui divider"></div>
-
-  <div class="ui piled segment">
-    <div id="chart_loading" class="ui active inverted dimmer">
-
-      <div class="ui text loader">
-        Carregando
-      </div>
-
-      <!-- Só mostra em caso de erro no request -->
-      <div class="ui text errored hidden">
-        <h4 class="ui icon header">
-          <i class="warning sign icon"></i>
-          <div class="content">
-            Ocorreu um erro!
-            <div class="sub header">
-              Por favor, contate um administrador do sistema.
-            </div>
-          </div>
-        </h4>
-      </div>
-
+  <div class="function-style">
+    <strong>Ponto A:</strong>
+    <div class="ui input">
+      <input type="text" value="<%= @function.point_a %>" id="function_point_a" class="code" size="6">
     </div>
 
-    <div id="show_function_chart" style="min-height:480px"></div>
+    <strong class="m-20-r">Ponto B:</strong>
+    <div class="ui input">
+      <input type="text" value="<%= @function.point_b %>" id="function_point_b" class="code" size="6">
+    </div>
 
+    <button class="ui button link hidden" id="update_points">
+      <i class="refresh icon"></i>
+      Atualizar
+    </button>
   </div>
 
-  <div class="ui piled segment">
+  <%= render 'chart' %>
 
-  </div>
+  <%= render 'metodo_bisseccao' %>
 
   <%= link_to edit_function_path(@function), class: 'ui button' do %>
     <i class="edit icon"></i>

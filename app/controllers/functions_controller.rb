@@ -1,5 +1,5 @@
 class FunctionsController < ApplicationController
-  before_action :set_function, only: [:show, :edit, :update, :destroy, :evaluate_expression]
+  before_action :set_function, only: [:show, :edit, :update, :destroy, :evaluate_expression, :metodo_bisseccao]
   before_action :set_range, only: [:evaluate_expression]
 
   def index
@@ -62,6 +62,54 @@ class FunctionsController < ApplicationController
         }
       end
     end
+  end
+
+  def metodo_bisseccao
+    calculator = Dentaku::Calculator.new
+
+    a = params[:point_a].to_f || -10.0
+    b = params[:point_b].to_f || 10.0
+    eps = params[:eps].present? ? params[:eps].to_f : 0.0001
+    c = 0.0
+    func_a = calculator.evaluate(@function.expression, x: a)
+    func_b = calculator.evaluate(@function.expression, x: b)
+    func_c = 0.0
+    solution = 0.0
+    result_values = []
+
+    1000.times do |i|
+      c = (a + b) / 2
+      func_c = calculator.evaluate(@function.expression, x: c)
+      result_values << {
+        iteration: i,
+        a: a,
+        b: b,
+        c: c,
+        func_c: func_c
+      }
+      # Acaba o loop caso encontre a solução
+      break if func_c == 0 || (b - a) / 2 < eps
+      # Multiplicação de f(c) com f(a) dá positivo se tiverem sinais iguais
+      if (func_c * func_a).positive?
+        a = c
+      else
+        b = c
+      end
+    end
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          expression: @function.expression,
+          result_values: result_values,
+          eps: eps
+        }
+      end
+    end
+  end
+
+  def metodo_cordas
+    #code
   end
 
   private

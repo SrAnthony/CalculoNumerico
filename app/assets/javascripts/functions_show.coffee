@@ -130,6 +130,7 @@ load_chart = =>
 
       # Evita o erro de aparecer por um tempo a tela de erro enquanto faz a transição de fadeout
       $('#chart_loading .errored.hidden').remove()
+
       # Esconde a div de loading (depois de 100 milissegundos pq sim)
       setTimeout ->
         $('#chart_loading').fadeOut()
@@ -149,6 +150,11 @@ update_points = =>
   $('#update_points').on 'click', ->
     point_a = $('#function_point_a').val()
     point_b = $('#function_point_b').val()
+
+    # Atualiza inputs do método da bissecção
+    $('#function_point_a_bisseccao')[0].value = point_a
+    $('#function_point_b_bisseccao')[0].value = point_b
+    # =====================================
 
     if point_a != "" && point_b != ""
       chart_data['scale-x'].markers = [

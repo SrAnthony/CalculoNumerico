@@ -67,3 +67,5 @@ gem 'jquery-rails'
 gem 'semantic-ui-sass'
 gem 'gon'
 gem 'dentaku'
+
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?

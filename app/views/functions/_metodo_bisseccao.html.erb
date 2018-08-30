@@ -1,0 +1,39 @@
+<div class="ui piled segment" data-method="bisseccao">
+  <h2 class="ui header">Método da Bissecção</h2>
+  <div class="function-style">
+    <strong>Ponto A:</strong>
+    <div class="ui input">
+      <input type="text" value="<%= @function.point_a %>" id="function_point_a_bisseccao" class="code" size="6" disabled>
+    </div>
+
+    <strong class="m-20-r">Ponto B:</strong>
+    <div class="ui input">
+      <input type="text" value="<%= @function.point_b %>" id="function_point_b_bisseccao" class="code" size="6" disabled>
+    </div>
+
+    <strong class="m-20-r">EPS:</strong>
+    <div class="ui input">
+      <input type="text" id="function_eps_bisseccao" class="code" size="8" value="0.0001">
+    </div>
+  </div>
+  <br>
+  <button type="button" id="metodo_bisseccao" class="ui primary button">Realizar cálculo</button>
+
+  <div id="bisseccao_result_area" style="display:none;">
+    <br>
+    <h4 class="ui header">Resultados:</h4>
+    <table class="ui selectable striped celled compact table">
+      <thead>
+        <tr class="center aligned">
+          <th class="one wide">Iteração</th>
+          <th>a</th>
+          <th>b</th>
+          <th>x*</th>
+          <th>f(x*)</th>
+        </tr>
+      </thead>
+      <tbody id="bissecao_tbody"></tbody>
+    </table>
+  </div>
+
+</div>

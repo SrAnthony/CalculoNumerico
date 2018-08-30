@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   root 'functions#index'
 
   get 'functions/:id/evaluate_expression' => 'functions#evaluate_expression', as: :evaluate_expression
-  get 'functions/:id/function_points' => 'functions#function_points', as: :function_points
+  get 'functions/:id/metodo_bisseccao' => 'functions#metodo_bisseccao', as: :metodo_bisseccao
 end
