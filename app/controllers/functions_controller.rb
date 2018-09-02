@@ -1,6 +1,9 @@
 class FunctionsController < ApplicationController
-  before_action :set_function, only: [:show, :edit, :update, :destroy, :evaluate_expression, :metodo_bisseccao]
+  before_action :set_function, only: [:show, :edit, :update, :destroy, :evaluate_expression, :metodo_bisseccao, :metodo_cordas]
+  # before_action :define_params, only: [:metodo_bisseccao, :metodo_cordas]
   before_action :set_range, only: [:evaluate_expression]
+
+  MAX_ITERATIONS = 1000
 
   def index
     @functions = Function.all
@@ -65,8 +68,8 @@ class FunctionsController < ApplicationController
   end
 
   def metodo_bisseccao
+    time_start = Time.new
     calculator = Dentaku::Calculator.new
-
     a = params[:point_a].to_f || -10.0
     b = params[:point_b].to_f || 10.0
     eps = params[:eps].present? ? params[:eps].to_f : 0.0001
@@ -77,7 +80,7 @@ class FunctionsController < ApplicationController
     solution = 0.0
     result_values = []
 
-    1000.times do |i|
+    MAX_ITERATIONS.times do |i|
       c = (a + b) / 2
       func_c = calculator.evaluate(@function.expression, x: c)
       result_values << {
@@ -102,6 +105,7 @@ class FunctionsController < ApplicationController
         render json: {
           expression: @function.expression,
           result_values: result_values,
+          time_spent: Time.new - time_start,
           eps: eps
         }
       end
@@ -109,7 +113,56 @@ class FunctionsController < ApplicationController
   end
 
   def metodo_cordas
-    #code
+    time_start = Time.new
+    calculator = Dentaku::Calculator.new
+    eps = params[:eps].present? ? params[:eps].to_f : 0.0001
+    a = params[:point_a].present? ? params[:point_a].to_f : 1.0
+    b = params[:point_b].present? ? params[:point_b].to_f : 2.0
+    round_value = params[:round_value].present? ? params[:round_value].to_i : 20
+    round_value = round_value > 10000 ? 10000 : round_value
+    result_values = []
+    c = 0.0
+    func_a = calculator.evaluate(@function.expression, x: a)
+    func_b = calculator.evaluate(@function.expression, x: b)
+
+    # c = X^(N)
+    c = ((a * func_b) - (b * func_a)) / (func_b - func_a)
+    func_c = calculator.evaluate(@function.expression, x: c)
+
+    MAX_ITERATIONS.times do |i|
+      puts "LOOP #{i}: a: #{a}, b: #{b}, c: #{c}, func_c: #{func_c}"
+
+      if (func_c * func_a).positive?
+        c = (((c * func_b) - (b * func_c)) / (func_b - func_c)).round(round_value)
+      else
+        c = (((a * func_c) - (c * func_a)) / (func_c - func_a)).round(round_value)
+      end
+
+      func_c = calculator.evaluate(@function.expression, x: c).round(round_value)
+
+      result_values << {
+        iteration: i,
+        a: a,
+        b: b,
+        c: c,
+        func_c: func_c
+      }
+
+      break if func_c.abs <= eps
+
+    end
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          expression: @function.expression,
+          result_values: result_values,
+          time_spent: Time.new - time_start,
+          eps: eps
+        }
+      end
+    end
+
   end
 
   private

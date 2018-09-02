@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'functions_show', 'metodo_bisseccao', defer: true %>
+<%= javascript_include_tag 'functions_show', 'metodo_bisseccao', 'metodo_cordas', defer: true %>
 
 <div class="ui container">
   <div class="ui hidden divider"></div>
@@ -30,6 +30,8 @@
   <%= render 'chart' %>
 
   <%= render 'metodo_bisseccao' %>
+
+  <%= render 'metodo_cordas' %>
 
   <%= link_to edit_function_path(@function), class: 'ui button' do %>
     <i class="edit icon"></i>

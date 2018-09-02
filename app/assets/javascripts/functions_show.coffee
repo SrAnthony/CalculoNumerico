@@ -144,6 +144,7 @@ load_chart = =>
       , 1000
 
 update_points = =>
+  # Só executa o listener uma (one) vez. Não é preciso mais.
   $('#function_point_a, #function_point_b').one 'keydown', ->
     $('#update_points').removeClass 'hidden'
 
@@ -151,9 +152,11 @@ update_points = =>
     point_a = $('#function_point_a').val()
     point_b = $('#function_point_b').val()
 
-    # Atualiza inputs do método da bissecção
+    # Atualiza inputs dos métodos
     $('#function_point_a_bisseccao')[0].value = point_a
     $('#function_point_b_bisseccao')[0].value = point_b
+    $('#function_point_a_cordas')[0].value = point_a
+    $('#function_point_b_cordas')[0].value = point_b
     # =====================================
 
     if point_a != "" && point_b != ""

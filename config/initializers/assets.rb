@@ -11,4 +11,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( functions_show.coffee metodo_bisseccao.coffee )
+Rails.application.config.assets.precompile += %w( functions_show.coffee metodo_bisseccao.coffee metodo_cordas.coffee )

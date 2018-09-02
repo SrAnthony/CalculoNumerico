@@ -10,7 +10,11 @@ metodo_bisseccao = ->
       url: "#{window.location.href}/metodo_bisseccao?eps=#{eps}&point_a=#{point_a}&point_b=#{point_b}",
       success: (results) ->
         $('#bisseccao_result_area').fadeIn()
+        $('#bisseccao_time').html results.time_spent
+        $('#bisseccao_iterations').html results.result_values.length
+
         tbody = $('#bissecao_tbody')
+        tbody.html('')
         $.each results.result_values, (index, result) ->
           tbody.append "
           <tr class='center aligned'>

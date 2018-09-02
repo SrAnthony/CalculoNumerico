@@ -1,30 +1,35 @@
-<div class="ui piled segment" data-method="bisseccao">
-  <h2 class="ui header">Método da Bissecção</h2>
+<div class="ui piled segment" data-method="cordas">
+  <h2 class="ui header">Método das Cordas</h2>
   <div class="function-style">
     <strong>Ponto A:</strong>
     <div class="ui input">
-      <input type="text" value="<%= @function.point_a %>" id="function_point_a_bisseccao" size="6" disabled>
+      <input type="text" value="<%= @function.point_a %>" id="function_point_a_cordas" size="6" disabled>
     </div>
 
     <strong class="m-20-r">Ponto B:</strong>
     <div class="ui input">
-      <input type="text" value="<%= @function.point_b %>" id="function_point_b_bisseccao" size="6" disabled>
+      <input type="text" value="<%= @function.point_b %>" id="function_point_b_cordas" size="6" disabled>
     </div>
 
     <strong class="m-20-r">EPS:</strong>
     <div class="ui input">
-      <input type="text" id="function_eps_bisseccao" size="30" value="0.0001">
+      <input type="text" id="function_eps_cordas" size="30" value="0.0001">
+    </div>
+
+    <strong class="m-20-r">Arredondamento:</strong>
+    <div class="ui input">
+      <input type="text" id="function_round_cordas" size="8" value="20">
     </div>
   </div>
   <br>
-  <button type="button" id="metodo_bisseccao" class="ui primary button">Realizar cálculo</button>
+  <button type="button" id="metodo_cordas" class="ui primary button">Realizar cálculo</button>
 
-  <div id="bisseccao_result_area" style="display:none;">
+  <div id="cordas_result_area" style="display:none;">
     <br>
     <h4 class="ui header">Resultados:</h4>
     <div class="ui two small statistics">
       <div class="statistic">
-        <div class="value" id="bisseccao_iterations">
+        <div class="value" id="cordas_iterations">
           00
         </div>
         <div class="label">
@@ -32,7 +37,7 @@
         </div>
       </div>
       <div class="statistic">
-        <div class="value" id="bisseccao_time">
+        <div class="value" id="cordas_time">
           00
         </div>
         <div class="label">
@@ -50,7 +55,7 @@
           <th>f(x*)</th>
         </tr>
       </thead>
-      <tbody id="bissecao_tbody"></tbody>
+      <tbody id="cordas_tbody"></tbody>
     </table>
   </div>
 
