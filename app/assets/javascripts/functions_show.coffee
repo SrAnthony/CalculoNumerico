@@ -50,7 +50,7 @@ load_chart = =>
         zoom: {
           label: {
             visible: true,
-            'font-family': 'monospace'
+            'font-family': 'Fira Mono'
           }
         },
         'scroll-x': {},
@@ -87,7 +87,7 @@ load_chart = =>
             'border-width': 1,
             'border-color': 'gray',
             'border-radius': '5px',
-            'font-family': 'monospace',
+            'font-family': 'Fira Mono',
             multiple: true
           }
         },
@@ -98,11 +98,11 @@ load_chart = =>
             backgroundColor:'#E0E1E2',
             fontColor: 'rgba(0, 0, 0, 0.6)',
             fontWeight: 'bold',
-            fontFamily: 'Raleway',
+            fontFamily: 'Fira Mono',
             fontSize: 15,
             x: '100%',
             y: 5,
-            offsetX: -120,
+            offsetX: -150,
             padding: 8,
             cursor: 'pointer',
             visible: false, # hide label by default
