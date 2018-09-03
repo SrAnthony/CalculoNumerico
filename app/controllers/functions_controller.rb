@@ -168,38 +168,51 @@ class FunctionsController < ApplicationController
   def metodo_newton
     time_start = Time.new
     calculator = Dentaku::Calculator.new
-    eps = params[:eps].present? ? params[:eps].to_f : 0.0001
-    a = params[:point_a].present? ? params[:point_a].to_f : 1.0
-    derivative = params[:derivative].gsub(' ', '+') || ''
     result_values = []
+    eps = params[:eps].present? ? params[:eps].to_f : 0.0001
+    a = params[:point_a].present? ? params[:point_a].to_f : -1.0
+    b = params[:point_b].present? ? params[:point_b].to_f : 1.0
 
-    MAX_ITERATIONS.times do |i|
+    # gsub para transformar os espaços da string em '+', comidos pela url
+    derivative1 = params[:derivative1].gsub(' ', '+') || ''
+    derivative2 = params[:derivative2].gsub(' ', '+') || ''
+
+    derivative_mult = calculator.evaluate(derivative1, x: a) * calculator.evaluate(derivative2, x: a)
+    a = b if derivative_mult.positive?
+
+    10.times do |i|
+      puts "a: #{a}"
       func_a = calculator.evaluate(@function.expression, x: a)
-      puts "calculando derivada de #{derivative}"
-      func_der_a = calculator.evaluate(derivative, x: a)
+      func_der_a = calculator.evaluate(derivative1, x: a)
+      puts "func_a: #{func_a}, func_der_a: #{func_der_a}"
+
+      break if func_der_a == 0
 
       # Cálculo de Newton
-      c = a - (func_a / func_der_a)
+      xn = a - (func_a / func_der_a)
+      puts "xn: #{xn}"
+
+      binding.pry
 
       result_values << {
         iteration: i,
         a: a,
         func_a: func_a,
         func_der_a: func_der_a,
-        c: c,
-        result: (c - a).abs
+        xn: xn,
+        result: (xn - a).abs
       }
 
-      break if (c - a).abs <= eps * c.abs
+      break if xn.abs <= eps
 
-      a = c
+      a = xn
     end
 
     respond_to do |format|
       format.json do
         render json: {
           expression: @function.expression,
-          derivative: derivative,
+          derivative: derivative1,
           result_values: result_values,
           time_spent: Time.new - time_start,
           eps: eps

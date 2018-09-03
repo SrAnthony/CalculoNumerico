@@ -158,6 +158,7 @@ update_points = =>
     $('#function_point_a_cordas')[0].value = point_a
     $('#function_point_b_cordas')[0].value = point_b
     $('#function_point_a_newton')[0].value = point_a
+    $('#function_point_b_newton')[0].value = point_b
     # =====================================
 
     if point_a != "" && point_b != ""
@@ -188,12 +189,16 @@ update_points = =>
         values : [[parseInt(point_b[0]), parseInt(point_b[1])]]
 
 default_derivative = =>
-  der_input = $('#function_derivative_newton')
+  der_1_input = $('#function_derivative_1_newton')
+  der_2_input = $('#function_derivative_2_newton')
   expression = $('#expression_title').data 'expression'
-  expression_der = math.derivative expression, 'x'
-  der_input.val expression_der
+  expression_der_1 = math.derivative expression, 'x'
+  expression_der_2 = math.derivative expression_der_1, 'x'
+  der_1_input.val expression_der_1
+  der_2_input.val expression_der_2
   # Remove os espaços
-  der_input.val der_input.val().replace(/\s/g, '')
+  der_1_input.val der_1_input.val().replace(/\s/g, '')
+  der_2_input.val der_2_input.val().replace(/\s/g, '')
 
 $(document).on 'turbolinks:load', load_chart
 $(document).on 'turbolinks:load', update_points
