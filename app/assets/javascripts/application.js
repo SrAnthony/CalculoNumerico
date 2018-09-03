@@ -15,6 +15,7 @@
 //= require turbolinks
 
 //= require jquery
+//= require mathjs.min
 //= require semantic-ui
 //= require general
 

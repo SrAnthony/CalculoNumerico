@@ -1,11 +1,11 @@
-<%= javascript_include_tag 'functions_show', 'metodo_bisseccao', 'metodo_cordas', defer: true %>
+<%= javascript_include_tag 'functions_show', 'metodo_bisseccao', 'metodo_cordas', 'metodo_newton', defer: true %>
 
 <div class="ui container">
   <div class="ui hidden divider"></div>
 
   <h1 class="ui function-show header">
     <i class="chart line icon"></i>
-    <div class="content">
+    <div class="content" id="expression_title" data-expression="<%= @function.expression %>">
       <%= @function.human_expression %>
     </div>
   </h1>
@@ -32,6 +32,8 @@
   <%= render 'metodo_bisseccao' %>
 
   <%= render 'metodo_cordas' %>
+
+  <%= render 'metodo_newton' %>
 
   <%= link_to edit_function_path(@function), class: 'ui button' do %>
     <i class="edit icon"></i>

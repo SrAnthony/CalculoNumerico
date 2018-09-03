@@ -157,6 +157,7 @@ update_points = =>
     $('#function_point_b_bisseccao')[0].value = point_b
     $('#function_point_a_cordas')[0].value = point_a
     $('#function_point_b_cordas')[0].value = point_b
+    $('#function_point_a_newton')[0].value = point_a
     # =====================================
 
     if point_a != "" && point_b != ""
@@ -186,5 +187,14 @@ update_points = =>
         plotindex : 2,
         values : [[parseInt(point_b[0]), parseInt(point_b[1])]]
 
+default_derivative = =>
+  der_input = $('#function_derivative_newton')
+  expression = $('#expression_title').data 'expression'
+  expression_der = math.derivative expression, 'x'
+  der_input.val expression_der
+  # Remove os espaços
+  der_input.val der_input.val().replace(/\s/g, '')
+
 $(document).on 'turbolinks:load', load_chart
 $(document).on 'turbolinks:load', update_points
+$(document).on 'turbolinks:load', default_derivative

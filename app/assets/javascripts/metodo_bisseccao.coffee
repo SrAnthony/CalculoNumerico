@@ -13,7 +13,7 @@ metodo_bisseccao = ->
         $('#bisseccao_time').html results.time_spent
         $('#bisseccao_iterations').html results.result_values.length
 
-        tbody = $('#bissecao_tbody')
+        tbody = $('#bisseccao_tbody')
         tbody.html('')
         $.each results.result_values, (index, result) ->
           tbody.append "

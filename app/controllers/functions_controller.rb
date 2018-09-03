@@ -1,5 +1,5 @@
 class FunctionsController < ApplicationController
-  before_action :set_function, only: [:show, :edit, :update, :destroy, :evaluate_expression, :metodo_bisseccao, :metodo_cordas]
+  before_action :set_function, only: [:show, :edit, :update, :destroy, :evaluate_expression, :metodo_bisseccao, :metodo_cordas, :metodo_newton]
   # before_action :define_params, only: [:metodo_bisseccao, :metodo_cordas]
   before_action :set_range, only: [:evaluate_expression]
 
@@ -156,6 +156,50 @@ class FunctionsController < ApplicationController
       format.json do
         render json: {
           expression: @function.expression,
+          result_values: result_values,
+          time_spent: Time.new - time_start,
+          eps: eps
+        }
+      end
+    end
+
+  end
+
+  def metodo_newton
+    time_start = Time.new
+    calculator = Dentaku::Calculator.new
+    eps = params[:eps].present? ? params[:eps].to_f : 0.0001
+    a = params[:point_a].present? ? params[:point_a].to_f : 1.0
+    derivative = params[:derivative].gsub(' ', '+') || ''
+    result_values = []
+
+    MAX_ITERATIONS.times do |i|
+      func_a = calculator.evaluate(@function.expression, x: a)
+      puts "calculando derivada de #{derivative}"
+      func_der_a = calculator.evaluate(derivative, x: a)
+
+      # Cálculo de Newton
+      c = a - (func_a / func_der_a)
+
+      result_values << {
+        iteration: i,
+        a: a,
+        func_a: func_a,
+        func_der_a: func_der_a,
+        c: c,
+        result: (c - a).abs
+      }
+
+      break if (c - a).abs <= eps * c.abs
+
+      a = c
+    end
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          expression: @function.expression,
+          derivative: derivative,
           result_values: result_values,
           time_spent: Time.new - time_start,
           eps: eps

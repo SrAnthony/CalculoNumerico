@@ -1,0 +1,58 @@
+<div class="ui piled segment" data-method="newton">
+  <h2 class="ui header">Método de Newton</h2>
+  <div class="function-style">
+    <strong>Ponto A:</strong>
+    <div class="ui input">
+      <input type="text" value="<%= @function.point_a %>" id="function_point_a_newton" size="6" disabled>
+    </div>
+
+    <strong class="m-20-r">EPS:</strong>
+    <div class="ui input">
+      <input type="text" id="function_eps_newton" size="30" value="0.0001">
+    </div>
+
+    <strong class="m-20-r">Derivada:</strong>
+    <div class="ui input">
+      <input type="text" id="function_derivative_newton" size="15" value="">
+    </div>
+  </div>
+  <br>
+  <button type="button" id="metodo_newton" class="ui primary button">Realizar cálculo</button>
+
+  <div id="newton_result_area" style="display:none;">
+    <br>
+    <h4 class="ui header">Resultados:</h4>
+    <div class="ui two small statistics">
+      <div class="statistic">
+        <div class="value" id="newton_iterations">
+          00
+        </div>
+        <div class="label">
+          Iterações
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value" id="newton_time">
+          00
+        </div>
+        <div class="label">
+          Segundos
+        </div>
+      </div>
+    </div>
+    <table class="ui striped celled compact table">
+      <thead>
+        <tr class="center aligned">
+          <th class="one wide">Iteração</th>
+          <th>a</th>
+          <th>f(a)</th>
+          <th>f'(a)</th>
+          <th>x*</th>
+          <th>x* - a</th>
+        </tr>
+      </thead>
+      <tbody id="newton_tbody"></tbody>
+    </table>
+  </div>
+
+</div>
