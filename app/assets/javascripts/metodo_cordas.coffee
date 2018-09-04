@@ -20,8 +20,6 @@ metodo_cordas = ->
           tbody.append "
           <tr class='center aligned'>
           <td><strong>#{result.iteration}</strong></td>
-          <td>#{result.a}</td>
-          <td>#{result.b}</td>
           <td>#{result.c}</td>
           <td>#{result.func_c}</td>
           </tr>"

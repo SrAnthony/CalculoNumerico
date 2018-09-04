@@ -15,6 +15,11 @@
     <div class="ui input">
       <input type="text" id="function_eps_bisseccao" size="30" value="0.0001">
     </div>
+
+    <strong class="m-20-r">Arredondamento:</strong>
+    <div class="ui input">
+      <input type="text" id="function_round_bisseccao" size="8" value="20">
+    </div>
   </div>
   <br>
   <button type="button" id="metodo_bisseccao" class="ui primary button">Realizar cálculo</button>
@@ -45,8 +50,6 @@
         <tr class="center aligned">
           <th class="one wide">Iteração</th>
           <th>a</th>
-          <th>b</th>
-          <th>x*</th>
           <th>f(x*)</th>
         </tr>
       </thead>

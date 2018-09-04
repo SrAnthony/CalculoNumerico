@@ -47,10 +47,9 @@ class FunctionsController < ApplicationController
   end
 
   def evaluate_expression
-    calculator = Dentaku::Calculator.new
     expression_ys = []
     params[:range_start].upto(params[:range_end]) do |x|
-      expression_ys << [x, calculator.evaluate(@function.expression, x: x)]
+      expression_ys << [x, Dentaku(@function.expression, x: x)]
     end
 
     respond_to do |format|
@@ -69,20 +68,22 @@ class FunctionsController < ApplicationController
 
   def metodo_bisseccao
     time_start = Time.new
-    calculator = Dentaku::Calculator.new
     a = params[:point_a].to_f || -10.0
     b = params[:point_b].to_f || 10.0
     eps = params[:eps].present? ? params[:eps].to_f : 0.0001
+    round_value = params[:round_value].present? ? params[:round_value].to_i : 20
+    round_value = round_value > 10000 ? 10000 : round_value
+
     c = 0.0
-    func_a = calculator.evaluate(@function.expression, x: a)
-    func_b = calculator.evaluate(@function.expression, x: b)
+    func_a = Dentaku(@function.expression, x: a).round(round_value)
+    func_b = Dentaku(@function.expression, x: b).round(round_value)
     func_c = 0.0
     solution = 0.0
     result_values = []
 
     MAX_ITERATIONS.times do |i|
-      c = (a + b) / 2
-      func_c = calculator.evaluate(@function.expression, x: c)
+      c = ((a + b) / 2).round(round_value)
+      func_c = Dentaku(@function.expression, x: c).round(round_value)
       result_values << {
         iteration: i,
         a: a,
@@ -114,7 +115,6 @@ class FunctionsController < ApplicationController
 
   def metodo_cordas
     time_start = Time.new
-    calculator = Dentaku::Calculator.new
     eps = params[:eps].present? ? params[:eps].to_f : 0.0001
     a = params[:point_a].present? ? params[:point_a].to_f : 1.0
     b = params[:point_b].present? ? params[:point_b].to_f : 2.0
@@ -122,12 +122,12 @@ class FunctionsController < ApplicationController
     round_value = round_value > 10000 ? 10000 : round_value
     result_values = []
     c = 0.0
-    func_a = calculator.evaluate(@function.expression, x: a)
-    func_b = calculator.evaluate(@function.expression, x: b)
+    func_a = Dentaku(@function.expression, x: a)
+    func_b = Dentaku(@function.expression, x: b)
 
     # c = X^(N)
     c = ((a * func_b) - (b * func_a)) / (func_b - func_a)
-    func_c = calculator.evaluate(@function.expression, x: c)
+    func_c = Dentaku(@function.expression, x: c)
 
     MAX_ITERATIONS.times do |i|
       puts "LOOP #{i}: a: #{a}, b: #{b}, c: #{c}, func_c: #{func_c}"
@@ -138,7 +138,7 @@ class FunctionsController < ApplicationController
         c = (((a * func_c) - (c * func_a)) / (func_c - func_a)).round(round_value)
       end
 
-      func_c = calculator.evaluate(@function.expression, x: c).round(round_value)
+      func_c = Dentaku(@function.expression, x: c).round(round_value)
 
       result_values << {
         iteration: i,
@@ -167,45 +167,32 @@ class FunctionsController < ApplicationController
 
   def metodo_newton
     time_start = Time.new
-    calculator = Dentaku::Calculator.new
     result_values = []
     eps = params[:eps].present? ? params[:eps].to_f : 0.0001
     a = params[:point_a].present? ? params[:point_a].to_f : -1.0
     b = params[:point_b].present? ? params[:point_b].to_f : 1.0
+    round_value = params[:round_value].present? ? params[:round_value].to_i : 20
+    round_value = round_value > 10000 ? 10000 : round_value
 
     # gsub para transformar os espaços da string em '+', comidos pela url
     derivative1 = params[:derivative1].gsub(' ', '+') || ''
     derivative2 = params[:derivative2].gsub(' ', '+') || ''
 
-    derivative_mult = calculator.evaluate(derivative1, x: a) * calculator.evaluate(derivative2, x: a)
-    a = b if derivative_mult.positive?
+    derivative_mult = Dentaku(derivative1, x: a) * Dentaku(derivative2, x: a)
+    xn = derivative_mult.positive? ? b : a
 
-    10.times do |i|
-      puts "a: #{a}"
-      func_a = calculator.evaluate(@function.expression, x: a)
-      func_der_a = calculator.evaluate(derivative1, x: a)
-      puts "func_a: #{func_a}, func_der_a: #{func_der_a}"
-
-      break if func_der_a == 0
-
-      # Cálculo de Newton
-      xn = a - (func_a / func_der_a)
-      puts "xn: #{xn}"
-
-      binding.pry
+    MAX_ITERATIONS.times do |i|
+      func_xn = Dentaku(@function.expression, x: xn).round(round_value)
+      func_der_xn = Dentaku(derivative1, x: xn).round(round_value)
+      xn = Dentaku("#{xn}-(#{func_xn}/#{func_der_xn})").round(round_value)
 
       result_values << {
         iteration: i,
-        a: a,
-        func_a: func_a,
-        func_der_a: func_der_a,
         xn: xn,
-        result: (xn - a).abs
+        func_xn: func_xn
       }
 
-      break if xn.abs <= eps
-
-      a = xn
+      break if func_xn.abs < eps
     end
 
     respond_to do |format|

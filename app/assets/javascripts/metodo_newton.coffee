@@ -7,9 +7,10 @@ metodo_newton = ->
     derivative_1 = $('#function_derivative_1_newton').val()
     derivative_2 = $('#function_derivative_2_newton').val()
     eps = $('#function_eps_newton').val()
+    round_value = $('#function_round_newton').val()
 
     $.ajax
-      url: "#{window.location.href}/metodo_newton?derivative1=#{derivative_1}&derivative2=#{derivative_2}&point_a=#{point_a}&point_b=#{point_b}&eps=#{eps}",
+      url: "#{window.location.href}/metodo_newton?round_value=#{round_value}&derivative1=#{derivative_1}&derivative2=#{derivative_2}&point_a=#{point_a}&point_b=#{point_b}&eps=#{eps}",
       success: (results) ->
         $('#newton_result_area').fadeIn()
         $('#newton_time').html results.time_spent
@@ -21,11 +22,8 @@ metodo_newton = ->
           tbody.append "
           <tr class='center aligned'>
           <td><strong>#{result.iteration}</strong></td>
-          <td>#{result.a}</td>
-          <td>#{result.func_a}</td>
-          <td>#{result.func_der_a}</td>
           <td>#{result.xn}</td>
-          <td>#{result.result}</td>
+          <td>#{result.func_xn}</td>
           </tr>"
         newton_segment.removeClass('loading')
 

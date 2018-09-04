@@ -5,7 +5,7 @@
     <div class="ui input">
       <input type="text" value="<%= @function.point_a %>" id="function_point_a_newton" size="6" disabled>
     </div>
-    <strong>Ponto B:</strong>
+    <strong class="m-20-r">Ponto B:</strong>
     <div class="ui input">
       <input type="text" value="<%= @function.point_b %>" id="function_point_b_newton" size="6" disabled>
     </div>
@@ -13,6 +13,11 @@
     <strong class="m-20-r">EPS:</strong>
     <div class="ui input">
       <input type="text" id="function_eps_newton" size="30" value="0.0001">
+    </div>
+
+    <strong class="m-20-r">Arredondamento:</strong>
+    <div class="ui input">
+      <input type="text" id="function_round_newton" size="8" value="20">
     </div>
 
     <br><br>
@@ -55,11 +60,8 @@
       <thead>
         <tr class="center aligned">
           <th class="one wide">Iteração</th>
-          <th>a</th>
-          <th>f(a)</th>
-          <th>f'(a)</th>
-          <th>x*</th>
-          <th>x* - a</th>
+          <th>xn</th>
+          <th>f(xn)</th>
         </tr>
       </thead>
       <tbody id="newton_tbody"></tbody>
